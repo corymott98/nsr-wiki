@@ -1,0 +1,184 @@
+---
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+import type { SidebarEntry, SidebarGroup } from '@astrojs/starlight/utils/routing/types';
+
+const { sidebar } = Astro.locals.starlightRoute;
+
+const isGroup = (entry: SidebarEntry): entry is SidebarGroup => entry.type === 'group';
+const groups = sidebar.filter(isGroup);
+
+const findFirstLink = (entry: SidebarEntry): SidebarEntry | undefined => {
+	if (entry.type === 'link') return entry;
+	for (const child of entry.entries) {
+		const match = findFirstLink(child);
+		if (match) return match;
+	}
+	return undefined;
+};
+
+const isEntryActive = (entry: SidebarEntry): boolean => {
+	if (entry.type === 'link') return Boolean(entry.isCurrent);
+	return entry.entries.some(isEntryActive);
+};
+
+const iconLookup: Record<string, { name: string }> = {
+	'Member Documentation': { name: 'member' },
+	'Admin Documentation': { name: 'admin' },
+	'Cup Series': { name: 'cup' },
+	'Truck Series': { name: 'truck' },
+};
+
+const iconSvgs: Record<string, string> = {
+	member: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+		<circle cx="12" cy="7" r="3.5" />
+		<path d="M5 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1" />
+		<path d="M3 12h18" />
+	</svg>`,
+	admin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M12 3 4 7v5c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V7l-8-4Z" />
+		<path d="M9 12.5 11.25 15 15 9.5" />
+	</svg>`,
+	cup: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M7 4h10v3a5 5 0 0 1-5 5 5 5 0 0 1-5-5V4Z" />
+		<path d="M5 4h2a3 3 0 0 1-3 3V5a1 1 0 0 1 1-1Z" />
+		<path d="M19 4h-2a3 3 0 0 0 3 3V5a1 1 0 0 0-1-1Z" />
+		<path d="M12 12v4" />
+		<path d="M8 19h8" />
+		<path d="M9 22h6" />
+	</svg>`,
+	truck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+		<rect x="2" y="7" width="11" height="8" rx="1" />
+		<path d="M13 9h4l3 3v3h-3" />
+		<circle cx="7.5" cy="19" r="2" />
+		<circle cx="17.5" cy="19" r="2" />
+		<path d="M9.5 19h5" />
+	</svg>`,
+	default: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M6 18h12" />
+		<path d="M6 6h12" />
+		<path d="M6 12h12" />
+	</svg>`,
+};
+
+const getIconMarkup = (label: string) => {
+	const key = iconLookup[label]?.name ?? 'default';
+	return iconSvgs[key] ?? iconSvgs.default;
+};
+
+const activeGroup = groups.find(isEntryActive) ?? groups[0];
+const filteredSidebar: SidebarEntry[] = activeGroup ? [activeGroup] : sidebar;
+const navLinks = groups.map((group) => ({
+	label: group.label,
+	href: findFirstLink(group)?.href ?? '#',
+	active: group === activeGroup,
+	iconMarkup: getIconMarkup(group.label),
+}));
+---
+
+<SidebarPersister>
+	{groups.length > 0 && (
+		<nav class="primary-nav" aria-label="Primary handbook sections">
+			{navLinks.map((link) => (
+				<a href={link.href} class:list={['primary-link', { active: link.active }]} aria-current={link.active ? 'page' : undefined}>
+					<span class="primary-icon" aria-hidden="true" set:html={link.iconMarkup}></span>
+					<span class="primary-text">{link.label}</span>
+				</a>
+			))}
+		</nav>
+	)}
+	<SidebarSublist sublist={filteredSidebar} />
+</SidebarPersister>
+
+<div class="md:sl-hidden">
+	<MobileMenuFooter />
+</div>
+
+<style>
+	@layer starlight.components {
+		.primary-nav {
+			display: flex;
+			flex-direction: column;
+			gap: 0.4rem;
+			padding: 1rem;
+			margin-bottom: 1rem;
+			background: var(--nsr-primary-nav-bg);
+			border-radius: 0.9rem;
+			border: 1px solid var(--nsr-primary-nav-border);
+			box-shadow: var(--nsr-primary-nav-shadow);
+		}
+
+		.primary-link {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			padding: 0.55rem 0.85rem;
+			border-radius: 0.65rem;
+			text-decoration: none;
+			color: var(--nsr-primary-link-text);
+			font-weight: 600;
+			line-height: 1.4;
+			background-color: var(--nsr-primary-link-bg);
+			transition: background 150ms ease, color 150ms ease, transform 150ms ease;
+		}
+
+		.primary-link:hover,
+		.primary-link:focus-visible {
+			color: var(--nsr-text-base);
+			background-color: var(--nsr-primary-link-hover);
+		}
+
+		.primary-link:focus-visible {
+			outline: 2px solid color-mix(in srgb, var(--sl-color-text-accent) 60%, transparent);
+			outline-offset: 2px;
+		}
+
+		.primary-link.active {
+			color: #0d0d0d;
+			background: var(--nsr-primary-link-active-bg);
+			box-shadow: var(--nsr-primary-link-active-shadow);
+		}
+
+		.primary-link.active .primary-icon {
+			background: rgba(0, 0, 0, 0.35);
+			color: #0d0d0d;
+		}
+
+		.primary-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 2.3rem;
+			height: 2.3rem;
+			border-radius: 0.6rem;
+			background: var(--nsr-primary-icon-bg);
+			color: var(--nsr-text-base);
+			flex-shrink: 0;
+		}
+
+		.primary-icon svg {
+			width: 1.15rem;
+			height: 1.15rem;
+		}
+
+		.primary-text {
+			letter-spacing: 0.01em;
+			color: var(--nsr-text-base);
+		}
+
+		.primary-link.active .primary-text {
+			color: #0d0d0d;
+		}
+
+		@media (min-width: 50rem) {
+			.primary-nav {
+				padding: 1.1rem;
+			}
+
+			.primary-link {
+				font-size: var(--sl-text-sm);
+			}
+		}
+	}
+</style>
