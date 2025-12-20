@@ -59,7 +59,6 @@ export default defineConfig({
 							items: [
 								{ label: 'Membership', slug: 'member/02-sporting-regulations/membership' },
 								{ label: 'Member Conduct', slug: 'member/02-sporting-regulations/member-conduct' },
-								{ label: 'Competition', slug: 'member/02-sporting-regulations/competition' },
 								{ label: 'Racing Rules', slug: 'member/02-sporting-regulations/racing-rules' },
 								{ label: 'Race Directors', slug: 'member/02-sporting-regulations/race-directors' },
 								{ label: 'Penalties & Appeals', slug: 'member/02-sporting-regulations/penalties-and-appeals' },
