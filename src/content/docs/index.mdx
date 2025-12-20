@@ -15,30 +15,72 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
+export const featuredCards = [
+	{
+		title: 'Cup Series',
+		icon: 'award',
+		description: 'Schedule, standings, roster, and Race Clean tracking for the North Star Racing Cup Series.',
+		href: '/cup-series/schedule/',
+		cta: 'Cup dashboard',
+	},
+	{
+		title: 'Truck Series',
+		icon: 'truck',
+		description: 'Schedule, standings, roster, and Race Clean tracking for the North Star Racing Truck Series.',
+		href: '/truck-series/schedule/',
+		cta: 'Truck dashboard',
+	},
+	{
+		title: 'League Information',
+		icon: 'flag',
+		description: 'Welcome letter, preface, and the overall structure of every NSR series.',
+		href: '/member/01-league-information/foreword/',
+		cta: 'Open league docs',
+	},
+	{
+		title: 'Sporting Regulations',
+		icon: 'scale',
+		description: 'Policies for membership, conduct, competition formats, and penalties.',
+		href: '/member/02-sporting-regulations/membership/',
+		cta: 'Review regulations',
+	},
+	{
+		title: 'Drivers & Teams',
+		icon: 'users',
+		description: 'Onboarding checklists, team organization best practices, and roster management.',
+		href: '/member/03-drivers-and-teams/getting-started/',
+		cta: 'Guide drivers',
+	},
+	{
+		title: 'Branding & Media',
+		icon: 'monitor',
+		description: 'Brand identity, broadcast expectations, and media asset guidance.',
+		href: '/member/04-branding-and-media/branding-guide/',
+		cta: 'View brand guide',
+	},
+	{
+		title: 'Admin Documentation',
+		icon: 'shield',
+		description: 'Role definitions, operations playbooks, and series-specific admin procedures.',
+		href: '/admin-documentation/01-general/admin-roles/',
+		cta: 'Run ops',
+	},
+];
+
 ## Choose your handbook
 
 <CardGrid stagger>
-	<Card title="League Information" icon="flag">
-		Welcome letter, preface, and the overall structure of every NSR series.
-	</Card>
-	<Card title="Sporting Regulations" icon="scale">
-		Policies for membership, conduct, competition formats, and penalties.
-	</Card>
-	<Card title="Drivers & Teams" icon="users">
-		Onboarding checklists, team organization best practices, and roster management.
-	</Card>
-	<Card title="Branding & Media" icon="monitor">
-		Brand identity, broadcast expectations, and media asset guidance.
-	</Card>
-	<Card title="Admin Documentation" icon="shield">
-		Role definitions, operations playbooks, and series-specific admin procedures.
-	</Card>
-	<Card title="Cup Series" icon="award">
-		Schedule, standings, roster, and Race Clean tracking for the NSR Cup grid.
-	</Card>
-	<Card title="Truck Series" icon="truck">
-		Key data for the Truck championship including schedule, points, roster, and Race Clean.
-	</Card>
+	{featuredCards.map((card) => (
+		<Card title={card.title} icon={card.icon}>
+			<a class="card-link" href={card.href}>
+				<span class="card-link__description">{card.description}</span>
+				<span class="card-link__cta">
+					{card.cta}
+					<span aria-hidden="true">→</span>
+				</span>
+			</a>
+		</Card>
+	))}
 </CardGrid>
 
 ## What's inside

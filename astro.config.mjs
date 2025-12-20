@@ -12,10 +12,11 @@ export default defineConfig({
 				dark: './src/assets/nsr/NSR-Icon-nobg.png',
 				replacesTitle: false,
 			},
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/corymott98/nsr-wiki' }],
 			components: {
 				Sidebar: './src/components/starlight/Sidebar.astro',
 				SiteTitle: './src/components/starlight/SiteTitle.astro',
+				TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
 			},
 			customCss: ['./src/styles/theme.css'],
 			sidebar: [
@@ -49,7 +50,7 @@ export default defineConfig({
 							items: [
 								{ label: 'Foreword', slug: 'member/01-league-information/foreword' },
 								{ label: 'Preface', slug: 'member/01-league-information/preface' },
-								{ label: 'Series Overview', slug: 'member/01-league-information/series-overview' },
+								{ label: 'Competition', slug: 'member/01-league-information/competition' },
 							],
 						},
 						{

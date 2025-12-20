@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Chivo+Mono:wght@400;600&display=swap');
 
-@layer starlight.theme {
-	:root {
-		--nsr-font-sans: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-		--nsr-font-mono: 'Chivo Mono', 'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
-		--nsr-color-gold: #c9a24a;
-		--nsr-color-charcoal: #0d0d0d;
-		--nsr-color-white: #ffffff;
-		--nsr-color-graphite: #8a8d8f;
-		--nsr-color-graphite-dark: #1b1b1d;
-		--sl-nav-height: 4.75rem;
-		--sl-nav-pad-y: 0.65rem;
-	}
+	@layer starlight.theme {
+		:root {
+			--nsr-font-sans: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			--nsr-font-mono: 'Chivo Mono', 'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+			--nsr-color-gold: #c9a24a;
+			--nsr-color-charcoal: #0d0d0d;
+			--nsr-color-white: #ffffff;
+			--nsr-color-graphite: #8a8d8f;
+			--nsr-color-graphite-dark: #1b1b1d;
+			--sl-nav-height: 4.75rem;
+			--sl-nav-pad-y: 0.65rem;
+			--sl-content-width: 60rem;
+			--sl-sidebar-width: 12rem;
+		}
 
 	[data-theme='dark'] {
 		color-scheme: dark;
@@ -277,6 +279,47 @@
 		color: var(--nsr-text-muted);
 	}
 
+	.card .card-link {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		text-decoration: none;
+		color: inherit;
+		padding: 0.1rem 0;
+		border-radius: 0.6rem;
+		transition: color 150ms ease, transform 150ms ease;
+	}
+
+	.card .card-link:focus-visible {
+		outline: 2px solid color-mix(in srgb, var(--sl-color-text-accent) 60%, transparent);
+		outline-offset: 4px;
+	}
+
+	.card .card-link:hover,
+	.card .card-link:focus-visible {
+		transform: translateX(2px);
+	}
+
+	.card .card-link__description {
+		color: var(--nsr-text-muted);
+	}
+
+	.card .card-link__cta {
+		color: var(--nsr-color-gold);
+		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		letter-spacing: 0.01em;
+		text-transform: uppercase;
+		font-size: var(--sl-text-sm);
+	}
+
+	.card .card-link:hover .card-link__description,
+	.card .card-link:focus-visible .card-link__description {
+		color: var(--nsr-color-white);
+	}
+
 	.card .icon {
 		background: var(--nsr-surface-glass);
 		border: 1px solid color-mix(in srgb, var(--sl-color-text-accent) 35%, transparent);
@@ -305,14 +348,113 @@
 		color: var(--nsr-text-base);
 	}
 
-	.sl-markdown-content table {
+	.sl-markdown-content table:not(:where(.not-content *)) {
+		width: 100% !important;
+		min-width: 100% !important;
+		display: table !important;
+		table-layout: fixed !important;
+		border-collapse: collapse;
+		border-spacing: 0;
 		background: var(--nsr-table-bg);
-		border-radius: 0.75rem;
+		border-radius: 0.85rem;
 		border: 1px solid var(--nsr-border-subtle);
+		overflow: hidden;
+		box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+		margin: 1.5rem 0;
+	}
+
+	[data-theme='light'] .sl-markdown-content table:not(:where(.not-content *)) {
+		box-shadow: 0 18px 30px rgba(25, 18, 5, 0.1);
+	}
+
+	.sl-markdown-content thead {
+		background: linear-gradient(120deg, color-mix(in srgb, var(--nsr-color-gold) 85%, #fff6d4), var(--nsr-color-gold));
+		color: var(--nsr-color-charcoal);
+	}
+
+	[data-theme='light'] .sl-markdown-content thead {
+		color: var(--nsr-color-charcoal);
+	}
+
+	.sl-markdown-content thead th {
+		color: var(--nsr-color-charcoal) !important;
+		text-align: center !important;
+	}
+
+	.sl-markdown-content th,
+	.sl-markdown-content td {
+		display: table-cell !important;
+		width: auto;
+		padding: 0.85rem 1.1rem;
+		border-bottom: 1px solid var(--nsr-border-subtle);
+		font-size: 0.96rem;
+		text-align: center;
+		line-height: 1.4;
 	}
 
 	.sl-markdown-content th {
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-size: 0.85rem;
+	}
+
+	.sl-markdown-content thead th {
+		border-bottom: 1px solid color-mix(in srgb, var(--nsr-color-charcoal) 15%, transparent);
+	}
+
+	.sl-markdown-content tr:last-child th,
+	.sl-markdown-content tr:last-child td {
+		border-bottom: none;
+	}
+
+	.sl-markdown-content tbody tr:nth-of-type(odd) {
+		background: color-mix(in srgb, var(--nsr-bg-panel-soft) 75%, #000 25%);
+	}
+
+	.sl-markdown-content tbody tr:nth-of-type(even) {
+		background: color-mix(in srgb, var(--nsr-bg-panel) 60%, transparent);
+	}
+
+	.sl-markdown-content tbody tr:hover {
+		background: color-mix(in srgb, var(--nsr-color-gold) 22%, var(--nsr-bg-panel-soft));
+	}
+
+	[data-theme='light'] .sl-markdown-content tbody tr:nth-of-type(odd) {
+		background: color-mix(in srgb, var(--nsr-bg-panel) 85%, #fff 5%);
+	}
+
+	[data-theme='light'] .sl-markdown-content tbody tr:nth-of-type(even) {
+		background: color-mix(in srgb, var(--nsr-bg-panel-soft) 85%, #fff 10%);
+	}
+
+	[data-theme='light'] .sl-markdown-content tbody tr:hover {
+		background: color-mix(in srgb, var(--nsr-color-gold) 25%, #fffbe7);
+	}
+
+	.sl-markdown-content td {
 		color: var(--nsr-text-base);
+	}
+
+	.sl-markdown-content :is(th, td):first-child {
+		width: 30%;
+	}
+
+	.sl-markdown-content :is(th, td):last-child {
+		width: 70%;
+	}
+
+	.sl-markdown-content td:first-child {
+		font-weight: 600;
+		color: var(--nsr-text-base);
+	}
+
+	.sl-markdown-content caption {
+		caption-side: bottom;
+		margin-top: 0.75rem;
+		font-size: 0.85rem;
+		color: var(--nsr-text-muted);
+		text-align: left;
 	}
 
 	.sl-markdown-content code {
@@ -387,6 +529,39 @@
 	:root[data-theme='light'] .right-sidebar-panel :where(a[aria-current='true']),
 	:root[data-theme='light'] .right-sidebar-panel :where(a[aria-current='true']) span {
 		color: var(--nsr-color-charcoal) !important;
+	}
+
+	@media (min-width: 64rem) {
+		.right-sidebar {
+			width: clamp(160px, 12vw, 200px);
+			flex: 0 0 clamp(160px, 12vw, 200px);
+		}
+
+		.right-sidebar-panel {
+			max-width: 100%;
+		}
+	}
+
+	@media (min-width: 72rem) {
+		.right-sidebar-container {
+			width: clamp(140px, 9vw, 170px) !important;
+			flex: 0 0 clamp(140px, 9vw, 170px) !important;
+		}
+
+		.right-sidebar {
+			width: 100% !important;
+		}
+
+		.main-pane {
+			flex: 1 1 auto;
+			width: auto !important;
+			max-width: var(--sl-content-width);
+			margin-inline: auto;
+		}
+
+		:global([data-has-sidebar][data-has-toc]) .main-pane {
+			margin-inline: auto;
+		}
 	}
 
 	nav:where(.astro-doynk5tl) summary,
