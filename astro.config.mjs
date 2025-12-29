@@ -60,7 +60,7 @@ export default defineConfig({
 								{ label: 'Membership', slug: 'member/02-sporting-regulations/membership' },
 								{ label: 'Member Conduct', slug: 'member/02-sporting-regulations/member-conduct' },
 								{ label: 'Racing Rules', slug: 'member/02-sporting-regulations/racing-rules' },
-								{ label: 'Race Directors', slug: 'member/02-sporting-regulations/race-directors' },
+								{ label: 'Series Directors', slug: 'member/02-sporting-regulations/series-directors' },
 								{ label: 'Penalties & Appeals', slug: 'member/02-sporting-regulations/penalties-and-appeals' },
 								{ label: 'Race Clean System', slug: 'member/02-sporting-regulations/race-clean-system' },
 							],
@@ -71,7 +71,6 @@ export default defineConfig({
 							items: [
 								{ label: 'Getting Started', slug: 'member/03-drivers-and-teams/getting-started' },
 								{ label: 'Team Structure', slug: 'member/03-drivers-and-teams/team-structure' },
-								{ label: 'Rosters', slug: 'member/03-drivers-and-teams/rosters' },
 							],
 						},
 						{

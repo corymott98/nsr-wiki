@@ -436,14 +436,6 @@
 		color: var(--nsr-text-base);
 	}
 
-	.sl-markdown-content :is(th, td):first-child {
-		width: 30%;
-	}
-
-	.sl-markdown-content :is(th, td):last-child {
-		width: 70%;
-	}
-
 	.sl-markdown-content td:first-child {
 		font-weight: 600;
 		color: var(--nsr-text-base);
@@ -462,6 +454,38 @@
 		border-radius: 0.35rem;
 		padding-inline: 0.45rem;
 		color: var(--nsr-text-base);
+	}
+
+	.roster-embed {
+		margin: 1.5rem 0;
+		border: 1px solid var(--nsr-border-subtle);
+		border-radius: 1rem;
+		box-shadow: var(--nsr-card-shadow);
+		background: var(--nsr-bg-panel-soft);
+		overflow: hidden;
+	}
+
+	.roster-embed iframe {
+		width: 100%;
+		min-height: 650px;
+		border: 0;
+		background: transparent;
+	}
+
+	.schedule-embed {
+		margin: 1.5rem 0;
+		border: 1px solid var(--nsr-border-subtle);
+		border-radius: 1rem;
+		box-shadow: var(--nsr-card-shadow);
+		background: var(--nsr-bg-panel-soft);
+		overflow: hidden;
+	}
+
+	.schedule-embed iframe {
+		width: 100%;
+		min-height: 900px;
+		border: 0;
+		background: transparent;
 	}
 
 	.sl-markdown-content pre {
@@ -544,8 +568,8 @@
 
 	@media (min-width: 72rem) {
 		.right-sidebar-container {
-			width: clamp(140px, 9vw, 170px) !important;
-			flex: 0 0 clamp(140px, 9vw, 170px) !important;
+			width: clamp(170px, 12vw, 230px) !important;
+			flex: 0 0 clamp(170px, 12vw, 230px) !important;
 		}
 
 		.right-sidebar {
